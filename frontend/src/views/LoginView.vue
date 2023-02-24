@@ -1,12 +1,10 @@
 <template>
-  <main class="register">
-    <form class="register-form">
-      <h3 class="register__title">Registration</h3>
-      <input type="text" class="register__input" placeholder="Name">
-      <input type="text" class="register__input" placeholder="Surname">
-      <input type="email" class="register__input" placeholder="Email">
-      <input type="password" class="register__input" placeholder="Password">
-      <button class="register__button">Sign up</button>
+  <main class="login">
+    <form class="login-form">
+      <h3 class="login__title">Authorization</h3>
+      <input type="email" class="login__input" placeholder="Email">
+      <input type="password" class="login__input" placeholder="Password">
+      <button class="login__button">Sign in</button>
     </form>
   </main>
 </template>
@@ -16,7 +14,7 @@
 </script>
 
 <style scoped lang="scss">
-.register {
+.login {
   min-height: 100%;
   display: flex;
   align-items: center;

@@ -9,29 +9,29 @@
             <li class="nav__item">
               <router-link
                 class="nav__link"
-                to="#"
-                >Главная</router-link
+                to="/"
+                >Main page</router-link
               >
             </li>
             <li class="nav__item">
               <router-link
-                to="#"
+                to="/signin"
                 class="nav__link"
                 v-if="!useUserStore().authorized"
-                >Авторизация</router-link
+                >Authorization</router-link
               >
               <router-link
                 to="#"
                 class="nav__link"
                 v-else
-                >Личный кабинет</router-link
+                >Profile</router-link
               >
             </li>
             <li class="nav__item" v-if="!useUserStore().authorized">
               <router-link
-                to="#"
+                to="/signup"
                 class="nav__link"
-              >Регистрация</router-link>
+              >Registration</router-link>
             </li>
           </ul>
         </nav>
@@ -77,13 +77,13 @@ import { useUserStore } from "@/stores/user";
 
       &__link {
         text-decoration: none;
-        font-family: Inter sans-serif;
-        font-size: 20px;
+        font-family: 'Inter', sans-serif;
+        font-size: 17px;
         color: rgba(0, 0, 0, 0.7);
 
         position: relative;
 
-        transition: all ease 0.5s;
+        transition: all ease 1s;
 
         &_active {
           &::before {
@@ -97,7 +97,7 @@ import { useUserStore } from "@/stores/user";
             left: 0;
             right: 0;
             margin: 0 auto;
-            transition: all ease 0.5s;
+            transition: all ease 1s;
           }
         }
 
@@ -119,6 +119,22 @@ import { useUserStore } from "@/stores/user";
           }
         }
       }
+    }
+  }
+
+  .router-link-active {
+    &::before {
+      content: "";
+      background: #ff0000ba;
+      width: 10px;
+      height: 2px;
+      border-radius: 10px;
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      transition: all ease 0.5s;
     }
   }
 

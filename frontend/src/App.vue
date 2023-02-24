@@ -13,6 +13,7 @@ import Footer from "@/components/Footer.vue";
 
 <style scoped lang="scss">
 .wrapper {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 
