@@ -4,21 +4,28 @@ ICT school project. Jelgava, 5-ths secondary school.
 Author: ``Jegor Dorofejev``  
 Teacher: ``Diana Bobriševa-Gončaruk``
 
-### Functional
-* Create account
-* Sign in account
-* Create post
-* View post
-* View all posts
-* Edit post
-* Delete post
+# Setting up
+```shell
+cd frontend
+npm install
+cd ../backend
+npm install
+```
+Создать файл ``.env`` по пути ``/backend/src``, Тело файла:
+```dotenv
+DATABASE_URL=mysql://db_username:db_password@db_ip:db_port/db_name'
+```
+Удалить папку ``/backend/src/prisma/migrations`` (если есть)  
+Мигрировать базу данных.
+```shell
+npx prisma genetate
+npx prisma migrate dev --name migration
+```
 
-## Tech. stack (FE)
-* Vue.js 3 (Composition API)
-* SASS/SCSS
-* Typescript
-
-## Tech. stack (BE)
-* Express.js
-* Typescript
-* MySQL & Prisma
+### Project Startup
+```shell
+cd frontend
+npm run dev
+cd ../backend
+npm run start
+```

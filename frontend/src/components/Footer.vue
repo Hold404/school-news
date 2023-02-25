@@ -8,6 +8,6 @@
 .footer {
   text-align: center;
   font-family: "Sofia Sans Semi Condensed", sans-serif;
-  color: #ff0000ba;
+  color: rgba(23, 23, 23, 0.73);
 }
 </style>

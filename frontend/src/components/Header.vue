@@ -17,7 +17,7 @@
               <router-link
                 to="/signin"
                 class="nav__link"
-                v-if="!useUserStore().authorized"
+                v-if="!authorized"
                 >Authorization</router-link
               >
               <router-link
@@ -27,7 +27,7 @@
                 >Profile</router-link
               >
             </li>
-            <li class="nav__item" v-if="!useUserStore().authorized">
+            <li class="nav__item" v-if="!authorized">
               <router-link
                 to="/signup"
                 class="nav__link"
@@ -42,6 +42,9 @@
 
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+
+const { authorized } = storeToRefs(useUserStore());
 </script>
 
 <style scoped lang="scss">
@@ -142,7 +145,7 @@ import { useUserStore } from "@/stores/user";
     font-family: "Sofia Sans Semi Condensed", sans-serif;
     font-size: 35px;
     font-weight: 800;
-    color: #ff0000ba;
+    color: rgba(23, 23, 23, 1);
   }
 }
 </style>

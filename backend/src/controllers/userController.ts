@@ -44,7 +44,7 @@ const login = async (req: any, res: any) => {
         if (await bcrypt.compare(password, user.password)) {
           const token = generateAccessToken(user.id, user.email, user.name, user.reporter);
 
-          res.status(200).setHeader("Set-Cookie", `jwt=${token}`).json({message: "You're logged in."});
+          res.status(200).json({ message: "You're logged in.", token: token });
 
         } else res.status(400).json({message: "Wrong password."});
       } else res.status(404).json({message: "User was not found."});
@@ -54,7 +54,7 @@ const login = async (req: any, res: any) => {
       console.log(e)
     }
   } else {
-    res.status(400).json({message: "Post was not found."});
+    res.status(400).json({message: "User was not found."});
   }
 }
 
@@ -86,7 +86,7 @@ const register = async (req: any, res: any) => {
 
     const token = generateAccessToken(user.id, user.email, user.name, user.reporter);
 
-    res.status(200).setHeader("Set-Cookie", `jwt=${token}`).json({message: "You're registered."});
+    res.status(200).json({ message: "You're registered.", token: token });
 
   } catch (e) {
     res.status(500).json({message: "Internal Server Error."});

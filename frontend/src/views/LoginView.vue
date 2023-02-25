@@ -2,15 +2,42 @@
   <main class="login">
     <form class="login-form">
       <h3 class="login__title">Authorization</h3>
-      <input type="email" class="login__input" placeholder="Email">
-      <input type="password" class="login__input" placeholder="Password">
-      <button class="login__button">Sign in</button>
+      <input type="email" v-model="email" class="login__input" placeholder="Email">
+      <input type="password" v-model="password" class="login__input" placeholder="Password">
+      <button class="login__button" type="submit" @click="login">Sign in</button>
     </form>
   </main>
 </template>
 
 <script setup lang="ts">
+import {ref, watch} from "vue";
+import {userInstance} from "@/api";
+import {useUserStore} from "@/stores/user";
+import {useRouter} from "vue-router";
+import {storeToRefs} from "pinia";
 
+const email = ref("");
+const password = ref("");
+
+const { authorized } = storeToRefs(useUserStore());
+const router = useRouter();
+
+const login = (e: Event) => {
+  e.preventDefault();
+
+  userInstance.post('login', { email: email.value, password: password.value })
+    .then((res) => {
+      const token = res.data!.token;
+      useUserStore().authUser(token, res.data!.reporter, router);
+    })
+    .catch((err) => {
+      alert("Неверный логин или пароль");
+    });
+}
+
+watch(authorized, function() {
+  if (authorized.value) router.push("profile");
+});
 </script>
 
 <style scoped lang="scss">
@@ -25,7 +52,7 @@
     text-align: center;
     font-family: 'Inter', sans-serif;
     font-size: 24px;
-    color: #ff0000ba;
+    color: rgba(23, 23, 23, 1);
   }
 
   &-form {
@@ -43,16 +70,15 @@
     padding-left: 10px;
 
     border-radius: 5px;
-    border: 1px solid #ff0000ba;
-    color: rgba(54, 6, 6, 0.73);
+    border: 1px solid rgba(23, 23, 23, 0.73);
+    color: black;
 
     outline: none;
 
     font-family: 'Inter', sans-serif;
 
     &::placeholder {
-      color: #ff0000ba;
-      opacity: 0.7;
+      color: rgba(23, 23, 23, 0.73);
     }
   }
 
@@ -60,7 +86,7 @@
     margin-top: 10px;
     height: 40px;
 
-    background: #ff0000ba;
+    background: rgba(23, 23, 23, 1);
     border-radius: 10px;
 
     border: none;
