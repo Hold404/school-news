@@ -18,7 +18,7 @@ DATABASE_URL=mysql://db_username:db_password@db_ip:db_port/db_name'
 Удалить папку ``/backend/src/prisma/migrations`` (если есть)  
 Мигрировать базу данных.
 ```shell
-npx prisma genetate
+npx prisma generate
 npx prisma migrate dev --name migration
 ```
 

@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
+import {PrismaClient} from "@prisma/client";
 
-export default function (req: any, res: any, next: any) {
+const prisma: PrismaClient = new PrismaClient();
+
+export default async function (req: any, res: any, next: any) {
   if (req.method === "OPTIONS") next();
 
   try {
@@ -10,10 +13,14 @@ export default function (req: any, res: any, next: any) {
 
     const user = jwt.verify(token, "$2a$10$1zx46JdIYGSC7CMpIeeMFu7s8TkyWTxXmqGfPkJWeSPhfncikQtCm");
 
-    // @ts-ignore
-    if (!Boolean(user.reporter)) return res.status(403).json({message: "You have not access to this operation"});
+    const dbUser = await prisma.user.findFirst({
+      // @ts-ignore
+      where: { id: user.userId, email: user.email, name: user.name }
+    });
 
-    req.user = user;
+    if (!dbUser || !dbUser.reporter) return res.status(403).json({message: "You have not access to this operation"});
+
+    req.user = dbUser;
     next();
 
   } catch (e) {

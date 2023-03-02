@@ -2,7 +2,7 @@
   <header class="header">
     <div class="container">
       <div class="header-inner">
-        <div class="header__logo">SchoolNews</div>
+        <router-link class="header__logo" to="/"><div class="header__logo">SchoolNews</div></router-link>
 
         <nav class="header__nav nav">
           <ul class="nav__list">
@@ -21,10 +21,10 @@
                 >Authorization</router-link
               >
               <router-link
-                to="#"
+                to="/newpost"
                 class="nav__link"
-                v-else
-                >Profile</router-link
+                v-if="authorized && reporter"
+                >New post</router-link
               >
             </li>
             <li class="nav__item" v-if="!authorized">
@@ -44,11 +44,13 @@
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 
-const { authorized } = storeToRefs(useUserStore());
+const { authorized, reporter } = storeToRefs(useUserStore());
 </script>
 
 <style scoped lang="scss">
 .header {
+  a { text-decoration: none }
+
   width: 100%;
   height: 80px;
 
@@ -86,59 +88,17 @@ const { authorized } = storeToRefs(useUserStore());
 
         position: relative;
 
-        transition: all ease 1s;
-
-        &_active {
-          &::before {
-            content: "";
-            background: #ff0000ba;
-            width: 10px;
-            height: 2px;
-            border-radius: 10px;
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-            transition: all ease 1s;
-          }
-        }
-
         &:hover {
           color: black;
-
-          &::before {
-            content: "";
-            background: #ff0000ba;
-            width: 10px;
-            height: 2px;
-            border-radius: 10px;
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-            transition: all ease 0.5s;
-          }
+          transition: all ease .5s;
         }
       }
     }
   }
 
   .router-link-active {
-    &::before {
-      content: "";
-      background: #ff0000ba;
-      width: 10px;
-      height: 2px;
-      border-radius: 10px;
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      transition: all ease 0.5s;
-    }
+    color: black;
+    transition: all ease .5s;
   }
 
   &__logo {

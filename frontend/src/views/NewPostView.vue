@@ -1,51 +1,45 @@
 <template>
-  <main class="register">
-    <form class="register-form">
-      <h3 class="register__title">Registration</h3>
-      <input type="text" v-model="name" class="register__input" placeholder="Name">
-      <input type="text" v-model="surname" class="register__input" placeholder="Surname">
-      <input type="email" v-model="email" class="register__input" placeholder="Email">
-      <input type="password" v-model="password" class="register__input" placeholder="Password">
-      <button class="register__button" type="submit" @click="register">Sign up</button>
+  <main class="newpost">
+    <form class="newpost-form">
+      <h3 class="newpost__title">New post</h3>
+      <input type="text" v-model="title" class="newpost__input" placeholder="Post title">
+      <textarea type="text" v-model="text" class="newpost__textarea" placeholder="Post text" />
+      <button class="newpost__button" type="submit" @click="newpost">Create</button>
     </form>
   </main>
 </template>
 
 <script setup lang="ts">
 import {ref, watch} from "vue";
-import {userInstance} from "@/api";
+import {defaultInstance, userInstance} from "@/api";
 import {useUserStore} from "@/stores/user";
 import {useRouter} from "vue-router";
 import {storeToRefs} from "pinia";
 
-const name = ref("");
-const surname = ref("");
-const email = ref("");
-const password = ref("");
+const title = ref("");
+const text = ref("");
 
-const { authorized } = storeToRefs(useUserStore());
+const { reporter } = storeToRefs(useUserStore());
+
 const router = useRouter();
 
-const register = (e: Event) => {
+const newpost = (e: Event) => {
   e.preventDefault();
 
-  userInstance.post('register', { name: name.value, surname: surname.value, email: email.value, password: password.value })
+  defaultInstance.post('posts/create', { title: title.value, text: text.value })
     .then((res) => {
-      const token = res.data!.token;
-      useUserStore().authUser(token, res.data!.reporter, router);
+      router.push("/");
     })
     .catch((err) => {
-      alert("Ошибка сервера. Попробуйте позже.")
+      alert("Ошибка.");
     });
 }
 
-watch(authorized, function() {
- if (authorized.value) router.push("/");
-});
+if (!reporter.value) router.push("/");
 </script>
 
 <style scoped lang="scss">
-.register {
+.newpost {
   min-height: 100%;
   display: flex;
   align-items: center;
@@ -80,6 +74,30 @@ watch(authorized, function() {
     outline: none;
 
     font-family: 'Inter', sans-serif;
+    font-size: 13px;
+
+    &::placeholder {
+      color: rgba(23, 23, 23, 0.73);
+    }
+  }
+
+  &__textarea {
+    width: 218px;
+    height: 80px;
+
+    resize: vertical;
+
+    border-radius: 5px;
+    border: 1px solid rgba(23, 23, 23, 0.73);
+    color: black;
+
+    padding-left: 10px;
+    padding-top: 10px;
+
+    outline: none;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
 
     &::placeholder {
       color: rgba(23, 23, 23, 0.73);

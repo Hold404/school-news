@@ -7,20 +7,12 @@ const getAllPosts = async (req: any, res: any) => {
     select: {
       id: true,
       title: true,
-      text: false,
+      text: true,
       views: true
     }
   });
 
   res.status(200).json(posts);
-}
-
-const getByID = async (req: any, res: any) => {
-  const id = Number(req.params.id);
-  const post = await prisma.post.findFirst({where: {id: id}});
-
-  if (post) res.status(200).json(post);
-  else res.status(404).json({message: "Post was not found."});
 }
 
 const addView = async (req: any, res: any) => {
@@ -120,4 +112,4 @@ const deletePost = async (req: any, res: any) => {
   }
 }
 
-export {getAllPosts, getByID, addView, createPost, updatePost, deletePost}
+export {getAllPosts, addView, createPost, updatePost, deletePost}

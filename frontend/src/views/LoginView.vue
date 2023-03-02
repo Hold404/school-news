@@ -36,7 +36,7 @@ const login = (e: Event) => {
 }
 
 watch(authorized, function() {
-  if (authorized.value) router.push("profile");
+  if (authorized.value) router.push("/");
 });
 </script>
 
